@@ -1,13 +1,10 @@
 package com.jd.lab6.server.net;
 
-import com.jd.lab6.commands.Command;
-import com.jd.lab6.data.SpaceMarine;
-import com.jd.lab6.server.cmd.CMD;
-
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.util.TreeSet;
 
 public class Writer {
     private SocketChannel client;
@@ -22,8 +19,7 @@ public class Writer {
             ObjectOutputStream ois = new ObjectOutputStream(responseBytes);
             ois.writeObject(response);
             client.write(ByteBuffer.wrap(responseBytes.toByteArray()));
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }

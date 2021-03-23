@@ -17,10 +17,12 @@ public class Listener {
         address = new InetSocketAddress(port);
         try {
             serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.configureBlocking(false);
             serverSocketChannel.bind(address);
             while (true) {
                 SocketChannel client = serverSocketChannel.accept();
-                new Reader(client, target).start();
+                if (client != null)
+                    new Reader(client, target).start();
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
