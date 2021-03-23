@@ -20,8 +20,7 @@ public class Listener {
             serverSocketChannel.bind(address);
             while (true) {
                 SocketChannel client = serverSocketChannel.accept();
-                Reader clientReader = new Reader(client, target);
-                clientReader.readRequests();
+                new Reader(client, target).start();
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

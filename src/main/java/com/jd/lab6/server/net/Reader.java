@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.TreeSet;
 
-public class Reader {
+public class Reader extends Thread{
     private SocketChannel client;
     private CMD cmd;
     private Writer clientResponse;
@@ -21,6 +21,10 @@ public class Reader {
         clientResponse = new Writer(client);
     }
 
+    public void run() {
+        System.out.println("Клиент подключился");
+        readRequests();
+    }
     public void readRequests() {
         while (parseRequest()) {
         }
