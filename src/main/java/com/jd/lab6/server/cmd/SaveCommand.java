@@ -18,7 +18,7 @@ public class SaveCommand extends Command {
 
     @Override
     public String execute() {
-        CsvIO.writeTo("src/test/testfiles/out.csv", target);
+        CsvIO.writeTo("out.csv", target);
         return "";
     }
 }

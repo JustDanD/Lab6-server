@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Writer {
     private final SocketChannel client;
-
-    public Writer(SocketChannel client) {
+    private Logger logger;
+    public Writer(SocketChannel client, Logger log) {
+        logger = log;
         this.client = client;
     }
 
@@ -19,8 +22,9 @@ public class Writer {
             ObjectOutputStream ois = new ObjectOutputStream(responseBytes);
             ois.writeObject(response);
             client.write(ByteBuffer.wrap(responseBytes.toByteArray()));
+            logger.log(Level.INFO,"Ответ успешно отправлен");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, e.getMessage());
         }
     }
 }

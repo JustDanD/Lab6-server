@@ -10,20 +10,22 @@ import java.io.ObjectInputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Reader extends Thread {
     private final SocketChannel client;
     private final Interpreter interpreter;
     private final Writer clientResponse;
-
-    public Reader(SocketChannel client, TreeSet<SpaceMarine> target) {
+    private  Logger logger;
+    public Reader(SocketChannel client, TreeSet<SpaceMarine> target, Logger log) {
+        logger = log;
         this.client = client;
         interpreter = new Interpreter(target);
-        clientResponse = new Writer(client);
+        clientResponse = new Writer(client, logger);
     }
 
     public void run() {
-        System.out.println("Клиент подключился");
         readRequests();
     }
 
@@ -35,6 +37,7 @@ public class Reader extends Thread {
     private boolean parseRequest() {
         ByteBuffer requestBuf = ByteBuffer.wrap(new byte[10000]);
         try {
+            logger.log(Level.INFO,"Входящий запрос");
             client.read(requestBuf);
             ByteArrayInputStream requestBytes = new ByteArrayInputStream(requestBuf.array());
             ObjectInputStream ois = new ObjectInputStream(requestBytes);
@@ -42,10 +45,10 @@ public class Reader extends Thread {
             clientResponse.sendResponse(interpreter.executeCommand(inputCommand));
             return true;
         } catch (IOException e) {
-            System.out.println("Клиент отключился или отправил битый запрос");
+            logger.log(Level.INFO,"Клиент отключился или отправил битый запрос");
             return false;
         } catch (ClassNotFoundException e) {
-            System.out.println("Такой команды нет");
+            logger.log(Level.INFO,"Такой команды нет");
             return true;
         }
     }

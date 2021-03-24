@@ -1,0 +1,14 @@
+мар 24, 2021 3:14:54 PM com.jd.lab6.server.Main main
+INFO: Начало работы
+мар 24, 2021 3:15:28 PM com.jd.lab6.server.Main main
+INFO: Начало работы
+мар 24, 2021 3:15:55 PM com.jd.lab6.server.net.Listener listenConnections
+INFO: Подлючение клиента
+мар 24, 2021 3:15:55 PM com.jd.lab6.server.net.Reader parseRequest
+INFO: Входящий запрос
+мар 24, 2021 3:16:11 PM com.jd.lab6.server.net.Writer sendResponse
+INFO: Ответ успешно отправлен
+мар 24, 2021 3:16:11 PM com.jd.lab6.server.net.Reader parseRequest
+INFO: Входящий запрос
+мар 24, 2021 3:16:12 PM com.jd.lab6.server.net.Reader parseRequest
+INFO: Клиент отключился или отправил битый запрос

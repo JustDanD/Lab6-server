@@ -8,10 +8,13 @@ import java.net.SocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Listener {
-
-    public static void listenConnections(int port, TreeSet<SpaceMarine> target) {
+    private static Logger logger;
+    public static void listenConnections(int port, TreeSet<SpaceMarine> target, Logger log) {
+        logger = log;
         SocketAddress address = new InetSocketAddress(port);
         try {
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
@@ -19,8 +22,10 @@ public class Listener {
             serverSocketChannel.bind(address);
             while (true) {
                 SocketChannel client = serverSocketChannel.accept();
-                if (client != null)
-                    new Reader(client, target).start();
+                if (client != null) {
+                    logger.log(Level.INFO,"Подлючение клиента");
+                    new Reader(client, target, logger).start();
+                }
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
