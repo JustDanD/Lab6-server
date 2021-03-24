@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class Writer {
-    private SocketChannel client;
+    private final SocketChannel client;
 
     public Writer(SocketChannel client) {
         this.client = client;

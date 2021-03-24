@@ -10,13 +10,11 @@ import java.nio.channels.SocketChannel;
 import java.util.TreeSet;
 
 public class Listener {
-    private static SocketAddress address;
-    private static ServerSocketChannel serverSocketChannel;
 
     public static void listenConnections(int port, TreeSet<SpaceMarine> target) {
-        address = new InetSocketAddress(port);
+        SocketAddress address = new InetSocketAddress(port);
         try {
-            serverSocketChannel = ServerSocketChannel.open();
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.bind(address);
             while (true) {

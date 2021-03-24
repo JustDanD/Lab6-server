@@ -59,7 +59,7 @@ public class CsvIO {
      */
     public static TreeSet<SpaceMarine> readFrom(String path) {
         TreeSet<SpaceMarine> inputTree = new TreeSet<>();
-        String fileName = "src/test/testfiles/test1.csv"/*System.getenv(path)*/;
+        String fileName = System.getenv(path);
         if (fileName == null) {
             System.out.println("Нет такой переменной окуржения");
             return inputTree;

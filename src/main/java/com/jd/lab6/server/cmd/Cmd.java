@@ -14,25 +14,17 @@ public class Cmd extends Thread {
     private final Stack<String> commandHistory;
     private final TreeSet<SpaceMarine> curCollection;
     private final LocalDateTime startDate;
-    private final boolean isInteractive;
 
     /**
      * Констурктор
      *
-     * @param col           - текущая коллекция
-     * @param isInteractive - режим работы
-     * @param parent        - родительский интепретатор(если есть)
+     * @param col    - текущая коллекция
      */
-    public Cmd(TreeSet<SpaceMarine> col, boolean isInteractive, Cmd parent) {
-        if (isInteractive) {
-            System.out.println("Доброго времени суток, уважаемый юзер.\nДобро пожаловать в систему управления вашей коллекцией космических корбалей!\nПриятного пользования!\nДля просмотра существующих команд введите help.\nВнимание! Это серверная версия приложения!!!!!");
-            startDate = LocalDateTime.now();
-            commandHistory = new Stack<String>();
-        } else {
-            startDate = parent.getStartDate();
-            commandHistory = parent.getCommandHistory();
-        }
-        this.isInteractive = isInteractive;
+    public Cmd(TreeSet<SpaceMarine> col) {
+
+        System.out.println("Доброго времени суток, уважаемый юзер.\nДобро пожаловать в систему управления вашей коллекцией космических корбалей!\nПриятного пользования!\nДля просмотра существующих команд введите help.\nВнимание! Это серверная версия приложения!!!!!");
+        startDate = LocalDateTime.now();
+        commandHistory = new Stack<>();
         commandsMap = new HashMap<>();
         commandsMap.put("exit", ExitCommand.class);
         commandsMap.put("help", HelpCommand.class);
@@ -57,16 +49,12 @@ public class Cmd extends Thread {
         return startDate;
     }
 
-    public boolean getIsInteractive() {
-        return isInteractive;
-    }
-
     /**
      * Метод, прослушивающий и обрабатывающий пользовательский ввод
      */
     private void listen() {
         Scanner in = new Scanner(System.in);
-        String curCom = "";
+        String curCom;
         String[] curArgs;
         Class[] params = {String[].class, TreeSet.class, boolean.class};
         while (true) {
@@ -77,7 +65,14 @@ public class Cmd extends Thread {
                 Class<? extends Command> command = (commandsMap.get(curCom));
                 if (command != null) {
                     Command executedCom = command.getConstructor(params).newInstance(curArgs, curCollection, true);
-                    System.out.println(executedCom.execute());
+                    if (executedCom instanceof ExitCommand) {
+                        System.out.println("Спасибо за визит!");
+                        System.exit(0);
+                    }
+                    if (executedCom instanceof HistoryCommand)
+                        System.out.println(((HistoryCommand)executedCom).execute(commandHistory));
+                    else
+                        System.out.println(executedCom.execute());
                     commandHistory.push(curCom);
                 } else
                     System.out.println("Такой команды не существует");

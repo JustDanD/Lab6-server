@@ -12,9 +12,9 @@ import java.nio.channels.SocketChannel;
 import java.util.TreeSet;
 
 public class Reader extends Thread {
-    private SocketChannel client;
-    private Interpreter interpreter;
-    private Writer clientResponse;
+    private final SocketChannel client;
+    private final Interpreter interpreter;
+    private final Writer clientResponse;
 
     public Reader(SocketChannel client, TreeSet<SpaceMarine> target) {
         this.client = client;
