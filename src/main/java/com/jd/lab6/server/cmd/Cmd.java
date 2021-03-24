@@ -66,6 +66,7 @@ public class Cmd extends Thread {
                 if (command != null) {
                     Command executedCom = command.getConstructor(params).newInstance(curArgs, curCollection, true);
                     if (executedCom instanceof ExitCommand) {
+                        new SaveCommand(null, curCollection, true).execute();
                         System.out.println("Спасибо за визит!");
                         System.exit(0);
                     }
